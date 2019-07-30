@@ -34,7 +34,7 @@
                             <th>更新日時</th>
                             <td><fmt:formatDate value="${report.updated_at}"
                                     pattern="yyyy-MM-dd HH:mm:ss" /></td>
-                        </tr>
+                            </tr>
                     </tbody>
                 </table>
 
@@ -51,6 +51,10 @@
 
         <p>
             <a href="<c:url value='/reports/index' />">一覧に戻る</a>
+        </p>
+
+        <p align="right">
+        <a href="<c:url value='/reports/index' />"><font size ="5">いいね！</font></a>
         </p>
     </c:param>
 </c:import>

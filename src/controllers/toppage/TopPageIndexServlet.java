@@ -20,7 +20,7 @@ import utils.DBUtil;
  */
 @WebServlet("/index.html")
 public class TopPageIndexServlet extends HttpServlet {
-    private static final long serialVersionUID = 1L;
+        private static final long serialVersionUID = 1L;
 
     /**
      * @see HttpServlet#HttpServlet()
@@ -45,14 +45,14 @@ public class TopPageIndexServlet extends HttpServlet {
             page = 1;
         }
         List<Report> reports = em.createNamedQuery("getMyAllReports", Report.class)
-                .setParameter("employee", login_employee)
-                .setFirstResult(15 * (page - 1))
-                .setMaxResults(15)
-                .getResultList();
+                                  .setParameter("employee", login_employee)
+                                  .setFirstResult(15 * (page - 1))
+                                  .setMaxResults(15)
+                                  .getResultList();
 
         long reports_count = (long)em.createNamedQuery("getMyReportsCount", Long.class)
-                .setParameter("employee", login_employee)
-                .getSingleResult();
+                                     .setParameter("employee", login_employee)
+                                     .getSingleResult();
 
         em.close();
 

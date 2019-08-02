@@ -6,12 +6,22 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 @Table(name = "reportsfavo")
 
+@NamedQueries({
+    @NamedQuery(name = "favo_id_count",
+            query = "SELECT COUNT(rf) FROM ReportFavo AS rf WHERE rf.report_id = :report_id"
+            )
+})
+
 @Entity
-public class ReportFavo {
+public class ReportFavo  {
 
     @Id
     @Column(name = "id")
@@ -24,11 +34,13 @@ public class ReportFavo {
     @Column(name = "updated_at", nullable = false)
     private Timestamp updated_at;
 
-    @Column(name = "article_id",nullable = false)
-    private int article_id;
 
-    @Column(name = "user_id",nullable = false)
-    private int user_id;
+    @Column(name = "report_id",nullable = false)
+    private int report_id;
+
+    @ManyToOne
+    @JoinColumn(name = "employee_id", nullable = false)
+    private Employee employee;
 
     public Integer getId() {
         return id;
@@ -54,20 +66,20 @@ public class ReportFavo {
         this.updated_at = updated_at;
     }
 
-    public int getArticle_id() {
-        return article_id;
+    public int getReport_id() {
+        return report_id;
     }
 
-    public void setArticle_id(int article_id) {
-        this.article_id = article_id;
+    public void setReport_id(int report_id) {
+        this.report_id = report_id;
     }
 
-    public int getUser_id() {
-        return user_id;
+    public Employee getEmployee() {
+        return employee;
     }
 
-    public void setUser_id(int user_id) {
-        this.user_id = user_id;
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
     }
 
 }

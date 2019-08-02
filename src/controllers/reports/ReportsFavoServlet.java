@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import models.Employee;
 import models.ReportFavo;
 import utils.DBUtil;
 
@@ -37,42 +38,30 @@ public class ReportsFavoServlet extends HttpServlet {
        EntityManager em = DBUtil.createEntityManager();
 
        ReportFavo rf = new ReportFavo();
-       rf.setUser_id((int) request.getSession().getAttribute("login_employee"));
 
-       rf.setArticle_id((int)request.getSession().getAttribute("id"));
+       long favocount = em.createNamedQuery("favo_id_count",long.class)
+               .getSingleResult();
+
+       request.setAttribute("favocount", favocount);
+
+       rf.setEmployee((Employee)request.getSession().getAttribute("login_employee"));
+
+       rf.setReport_id((int)(request.getSession().getAttribute("report_id")));
 
        Timestamp currentTime = new Timestamp(System.currentTimeMillis());
        rf.setCreated_at(currentTime);
        rf.setUpdated_at(currentTime);
 
+       em.getTransaction().begin();
+       em.getTransaction().commit();
        em.close();
 
-       RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/reports/index.jsp");
+       RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/reports/show.jsp");
        rd.forward(request, response);
 
        request.getSession().setAttribute("flush", "お気に入りに追加されました");
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+       response.sendRedirect(request.getContextPath() + "/reports/index");
     }
 
 }

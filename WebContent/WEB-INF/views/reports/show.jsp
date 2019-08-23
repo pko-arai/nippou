@@ -34,7 +34,7 @@
                             <th>更新日時</th>
                             <td><fmt:formatDate value="${report.updated_at}"
                                     pattern="yyyy-MM-dd HH:mm:ss" /></td>
-                            </tr>
+                        </tr>
                     </tbody>
                 </table>
 
@@ -42,6 +42,7 @@
                     <p>
                         <a href="<c:url value='/reports/edit?id=${report.id}' />">この日報を編集する</a>
                     </p>
+
                 </c:if>
             </c:when>
             <c:otherwise>
@@ -53,8 +54,11 @@
             <a href="<c:url value='/reports/index' />">一覧に戻る</a>
         </p>
 
-        <p align="right">
-        <a href="<c:url value='/reports/index' />"><font size ="5">いいね！</font></a>
-        </p>
+        <form method="POST" action="<c:url value='/reports/favo' />">
+            <p align="right">
+                <input type="hidden" name="report_id" value="${report.id}" />
+                <button type="submit">いいね！</button>
+            </p>
+        </form>
     </c:param>
 </c:import>

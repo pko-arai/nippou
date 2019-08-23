@@ -36,8 +36,11 @@ public class ReportsShowServlet extends HttpServlet {
 
         Report r = em.find(Report.class, Integer.parseInt(request.getParameter("id")));
 
-        em.close();
+        long reports_count = (long)em.createNamedQuery("getReportsCount", Long.class)
+                .getSingleResult();
 
+        em.close();
+        request.setAttribute("reports_count", reports_count);
         request.setAttribute("report", r);
         request.setAttribute("_token", request.getSession().getId());
 

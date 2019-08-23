@@ -16,8 +16,14 @@ import javax.persistence.Table;
 
 @NamedQueries({
     @NamedQuery(name = "favo_id_count",
-            query = "SELECT COUNT(rf) FROM ReportFavo AS rf WHERE rf.report_id = :report_id"
-            )
+            query = "SELECT rf.report_id , COUNT(rf) FROM ReportFavo AS rf GROUP BY rf.report_id"
+            ),
+
+    @NamedQuery(
+            name = "checkRegisteredReport_id",
+            query = "SELECT COUNT(rf) FROM ReportFavo AS rf WHERE rf.report_id = :report_id AND rf.employee = :employee"
+            ),
+
 })
 
 @Entity
@@ -34,13 +40,16 @@ public class ReportFavo  {
     @Column(name = "updated_at", nullable = false)
     private Timestamp updated_at;
 
-
     @Column(name = "report_id",nullable = false)
     private int report_id;
 
     @ManyToOne
     @JoinColumn(name = "employee_id", nullable = false)
     private Employee employee;
+
+    @Column(name = "favo_id_count", nullable = false)
+    private int favo_id_count;
+
 
     public Integer getId() {
         return id;
@@ -81,5 +90,14 @@ public class ReportFavo  {
     public void setEmployee(Employee employee) {
         this.employee = employee;
     }
+
+    public int getFavo_id_count() {
+        return favo_id_count;
+    }
+
+    public void setFavo_id_count(int favo_id_count) {
+        this.favo_id_count = favo_id_count;
+    }
+
 
 }

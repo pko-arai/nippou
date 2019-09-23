@@ -15,7 +15,8 @@ import javax.persistence.Table;
 @Table(name = "reportsfavo")
 
 @NamedQueries({
-    @NamedQuery(name = "favo_id_count",
+    @NamedQuery(
+            name = "favo_id_count",
             query = "SELECT rf.report_id , COUNT(rf) FROM ReportFavo AS rf GROUP BY rf.report_id"
             ),
 
@@ -23,6 +24,12 @@ import javax.persistence.Table;
             name = "checkRegisteredReport_id",
             query = "SELECT COUNT(rf) FROM ReportFavo AS rf WHERE rf.report_id = :report_id AND rf.employee = :employee"
             ),
+
+    @NamedQuery(
+            name = "id_select",
+            query = "SELECT rf.id FROM ReportFavo AS rf WHERE rf.report_id = :report_id AND rf.employee = :employee"
+            )
+
 
 })
 

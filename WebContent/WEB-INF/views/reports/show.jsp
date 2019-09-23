@@ -54,11 +54,24 @@
             <a href="<c:url value='/reports/index' />">一覧に戻る</a>
         </p>
 
-        <form method="POST" action="<c:url value='/reports/favo' />">
-            <p align="right">
-                <input type="hidden" name="report_id" value="${report.id}" />
-                <button type="submit">いいね！</button>
-            </p>
-        </form>
+        <c:if
+            test="${sessionScope.login_employee.id.equals(reportfavo.employee.id) == false and
+             sessionScope.login_employee.id.equals(report.employee.id) == false}">
+            <form method="POST" action="<c:url value='/reports/favo' />">
+                <p align="right">
+                    <input type="hidden" name="report_id" value="${report.id}" />
+                    <button type="submit">いいね！</button>
+                </p>
+            </form>
+        </c:if>
+        <c:if
+            test="${sessionScope.login_employee.id.equals(reportfavo.employee.id) }">
+            <form method="POST" action="<c:url value='/reports/destroy' />">
+                <p align="justify">
+                    <input type="hidden" name="report_id" value="${report.id}" />
+                    <button type="submit">いいね取り消し</button>
+                </p>
+            </form>
+        </c:if>
     </c:param>
 </c:import>

@@ -10,7 +10,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import models.Employee;
 import models.Report;
+import models.ReportFavo;
 import utils.DBUtil;
 
 /**
@@ -18,34 +20,45 @@ import utils.DBUtil;
  */
 @WebServlet("/reports/show")
 public class ReportsShowServlet extends HttpServlet {
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public ReportsShowServlet() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
+	/**
+	 * @see HttpServlet#HttpServlet()
+	 */
+	public ReportsShowServlet() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 
-    /**
-     * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-     */
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        EntityManager em = DBUtil.createEntityManager();
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		EntityManager em = DBUtil.createEntityManager();
 
-        Report r = em.find(Report.class, Integer.parseInt(request.getParameter("id")));
+		Report r = em.find(Report.class, Integer.parseInt(request.getParameter("id")));
 
-        long reports_count = (long)em.createNamedQuery("getReportsCount", Long.class)
-                .getSingleResult();
+		int report_id = r.getId();
 
-        em.close();
-        request.setAttribute("reports_count", reports_count);
-        request.setAttribute("report", r);
-        request.setAttribute("_token", request.getSession().getId());
+		Employee employee_id = (Employee) request.getSession().getAttribute("login_employee");
 
-        RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/reports/show.jsp");
-        rd.forward(request, response);
-    }
 
+		try{Integer id = em.createNamedQuery("id_select" ,  java.lang.Integer .class)
+				.setParameter("report_id" , report_id)
+				.setParameter("employee" , employee_id)
+				.getSingleResult();
+		ReportFavo rf = em.find(ReportFavo.class , id);
+		request.setAttribute("reportfavo", rf);
+		}catch(Exception ignored){}
+
+		long reports_count = (long)em.createNamedQuery("getReportsCount", Long.class)
+				.getSingleResult();
+		em.close();
+		request.setAttribute("reports_count", reports_count);
+		request.setAttribute("report", r);
+		request.setAttribute("_token", request.getSession().getId());
+		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/reports/show.jsp");
+		rd.forward(request, response);
+	}
 }
+

@@ -7,7 +7,16 @@
                 <c:out value="${flush}"></c:out>
             </div>
         </c:if>
-        <h2>従業員　一覧</h2>
+        <h2>従業員一覧</h2>
+
+        <div align="right">
+        <form method="GET" action="<c:url value='/employees/search' />">
+        <label>氏名検索</label>
+            <input type="text" name="search" size="10" maxlength="10">
+            <button type="submit">検索</button>
+            </form>
+        </div>
+
         <table id="employee_list">
             <tbody>
                 <tr>

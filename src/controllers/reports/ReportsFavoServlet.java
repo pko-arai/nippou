@@ -35,37 +35,39 @@ public class ReportsFavoServlet extends HttpServlet {
      */
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-       EntityManager em = DBUtil.createEntityManager();
+        EntityManager em = DBUtil.createEntityManager();
 
-       ReportFavo rf = new ReportFavo();
-       int report_id = Integer.parseInt(request.getParameter("report_id"));
-       Employee employee_id = (Employee) request.getSession().getAttribute("login_employee");
-       long report_id_count = em.createNamedQuery("checkRegisteredReport_id",Long.class)
-               .setParameter("report_id", report_id)
-               .setParameter("employee", employee_id)
-               .getSingleResult();
+        ReportFavo rf = new ReportFavo();
+        int report_id = Integer.parseInt(request.getParameter("report_id"));
+        Employee employee_id = (Employee) request.getSession().getAttribute("login_employee");
+        long report_id_count = em.createNamedQuery("checkRegisteredReport_id",Long.class)
+                .setParameter("report_id", report_id)
+                .setParameter("employee", employee_id)
+                .getSingleResult();
 
-       if(report_id_count > 1){
-           em.close();
-           request.getSession().setAttribute("flush", "既にいいねを押してます");
-           response.sendRedirect(request.getContextPath() + "/reports/index");
-       }else{
+        if(report_id_count >= 1){
+            em.close();
+            request.getSession().setAttribute("flush", "既にいいねを押してます");
+            response.sendRedirect(request.getContextPath() + "/reports/index");
+        }else{
 
-       rf.setReport_id(report_id);
-       rf.setEmployee((Employee)request.getSession().getAttribute("login_employee"));
-       Timestamp currentTime = new Timestamp(System.currentTimeMillis());
-       rf.setCreated_at(currentTime);
-       rf.setUpdated_at(currentTime);
 
-       request.setAttribute("reportfavo", rf);
+            rf.setReport_id(report_id);
+            rf.setEmployee((Employee)request.getSession().getAttribute("login_employee"));
+            Timestamp currentTime = new Timestamp(System.currentTimeMillis());
+            rf.setCreated_at(currentTime);
+            rf.setUpdated_at(currentTime);
 
-       em.getTransaction().begin();
-       em.persist(rf);
-       em.getTransaction().commit();
-       em.close();
 
-       request.getSession().setAttribute("flush", "お気に入りに追加されました");
-       response.sendRedirect(request.getContextPath() + "/reports/index");
-    }
+            request.setAttribute("reportfavo", rf);
+
+            em.getTransaction().begin();
+            em.persist(rf);
+            em.getTransaction().commit();
+            em.close();
+
+            request.getSession().setAttribute("flush", "お気に入りを追加しました");
+            response.sendRedirect(request.getContextPath() + "/reports/index");
+        }
     }
 }

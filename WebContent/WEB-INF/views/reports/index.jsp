@@ -10,6 +10,18 @@
             </div>
         </c:if>
         <h2>日報 一覧</h2>
+
+
+        <div align="right">
+        <form method="GET" action="<c:url value='/reports/search' />">
+        <label>氏名検索</label>
+            <input type="text" name="search" size="10" maxlength="10">
+            <button type="submit">検索</button>
+            </form>
+        </div>
+
+        <br>
+
         <table id="report_list">
             <tbody>
                 <tr>
@@ -28,7 +40,7 @@
                         <td class="report_title">${report.title}</td>
                         <td class="report_action"><a
                             href="<c:url value='/reports/show?id=${report.id}' />">詳細を見る</a></td>
-                            <td class="report_favo">${reports_favocount[report.id]}</td>
+                        <td class="report_favo">${reports_favocount[report.id]}</td>
 
                     </tr>
                 </c:forEach>

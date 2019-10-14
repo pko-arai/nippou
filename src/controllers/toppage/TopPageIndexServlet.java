@@ -1,6 +1,7 @@
 package controllers.toppage;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -54,11 +55,19 @@ public class TopPageIndexServlet extends HttpServlet {
                                      .setParameter("employee", login_employee)
                                      .getSingleResult();
 
+        List<Object[] > reports_favocount = em.createNamedQuery("favo_id_count", Object[].class)
+                .getResultList();
+
+        HashMap<Integer, String> map=new HashMap<Integer, String>();
+        for (Object[] results : reports_favocount) {
+            map.put(new Integer(results[0].toString()), results[1].toString());
+        }
         em.close();
 
         request.setAttribute("reports", reports);
         request.setAttribute("reports_count", reports_count);
         request.setAttribute("page", page);
+        request.setAttribute("reports_favocount", map);
 
         if(request.getSession().getAttribute("flush") != null) {
             request.setAttribute("flush", request.getSession().getAttribute("flush"));

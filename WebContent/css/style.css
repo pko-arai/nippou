@@ -48,7 +48,7 @@ table, tr, th, td {
 }
 
 table {
-    width: 100%;
+    width: 80%;
     table-layout: fixed;
 }
 
@@ -58,7 +58,7 @@ th {
 }
 
 td {
-    width: 66%;
+    width: 50%;
     padding: 10px 2%;
 }
 
@@ -156,6 +156,10 @@ table#report_list .report_title {
 
 table#report_list .report_action {
     width: 13%;
+}
+
+table#report_list .report_favo {
+    width: 2%;
 }
 
 pre {

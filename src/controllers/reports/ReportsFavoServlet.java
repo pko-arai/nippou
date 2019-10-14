@@ -68,6 +68,7 @@ public class ReportsFavoServlet extends HttpServlet {
 
             request.getSession().setAttribute("flush", "お気に入りを追加しました");
             response.sendRedirect(request.getContextPath() + "/reports/index");
-        }
+
+            }
     }
 }

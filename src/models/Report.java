@@ -70,6 +70,12 @@ public class Report {
     @Column(name = "updated_at", nullable = false)
     private Timestamp updated_at;
 
+    @Column(name = "approve_flag" , nullable = false)
+    private Integer approve_flag;
+
+    @Column(name = "approve_name", nullable = false)
+    private String approve_name;
+
     public Integer getId() {
         return id;
     }
@@ -125,4 +131,21 @@ public class Report {
     public void setUpdated_at(Timestamp updated_at) {
         this.updated_at = updated_at;
     }
+
+    public Integer getApprove_flag() {
+        return approve_flag;
+    }
+
+    public void setApprove_flag(Integer approve_flag) {
+        this.approve_flag = approve_flag;
+    }
+
+    public String getApprove_name() {
+        return approve_name;
+    }
+
+    public void setApprove_name(String approve_name) {
+        this.approve_name = approve_name;
+    }
+
 }

@@ -18,6 +18,9 @@
                     <th class="report_date">日付</th>
                     <th class="report_title">タイトル</th>
                     <th class="report_action">操作</th>
+                    <th class="report_favo">いいね!</th>
+                    <th class="report_approve">承認</th>
+
                 </tr>
                 <c:forEach var="report" items="${reports}" varStatus="status">
                     <tr class="row${status.count % 2}">
@@ -28,6 +31,13 @@
                         <td class="report_title">${report.title}</td>
                         <td class="report_action"><a
                             href="<c:url value='/reports/show?id=${report.id}' />">詳細を見る</a></td>
+                        <td class="report_favo">${reports_favocount[report.id]}</td>
+                        <td class="report_approve_flag"><c:choose>
+                                <c:when test="${report.approve_flag == 1}">
+                                    <c:out value="${report.approve_name }" />
+                                </c:when>
+                                <c:otherwise>承認待ち</c:otherwise>
+                            </c:choose></td>
                     </tr>
                 </c:forEach>
             </tbody>
